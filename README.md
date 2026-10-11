@@ -1,0 +1,2 @@
+# DaftarchaiQarz
+Daftarchai Qarz App
