@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дафтарчаи қарз</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f8f3;margin:0;padding:20px;color:#222}
+.card{max-width:500px;margin:auto;background:white;padding:20px;border-radius:15px;box-shadow:0 2px 12px #ccc}
+h1{color:#168447;text-align:center}
+input,button{box-sizing:border-box;width:100%;padding:13px;margin:7px 0;border-radius:8px;font-size:16px}
+input{border:1px solid #ccc}
+button{background:#168447;color:white;border:0;font-weight:bold}
+#result{margin-top:15px}
+.person{padding:12px;background:#e8f5e9;margin:8px 0;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Дафтарчаи қарз</h1>
+<p>Муштариён ва қарзҳоро сабт кун</p>
+<input id="name" placeholder="Номи муштарӣ">
+<input id="phone" placeholder="Рақами телефон">
+<input id="amount" type="number" placeholder="Маблағи қарз (сомонӣ)">
+<button onclick="addDebt()">+ Илова кардани қарз</button>
+<h3>Рӯйхати қарзҳо</h3>
+<div id="result"></div>
+</div>
+<script>
+let debts=JSON.parse(localStorage.getItem('debts')||'[]');
+function show(){
+document.getElementById('result').innerHTML=debts.map((d,i)=>
+`<div class="person"><b>${d.name}</b><br>Телефон: ${d.phone||'—'}<br>Қарз: ${d.amount} сомонӣ<br><button onclick="removeDebt(${i})">Нест кардан</button></div>`
+).join('')||'Ҳоло қарз сабт нашудааст';
+}
+function addDebt(){
+let name=document.getElementById('name').value.trim();
+let phone=document.getElementById('phone').value.trim();
+let amount=Number(document.getElementById('amount').value);
+if(!name||amount<=0){alert('Ном ва маблағи дурустро ворид кун');return}
+debts.push({name,phone,amount});
+localStorage.setItem('debts',JSON.stringify(debts));
+document.getElementById('name').value='';
+document.getElementById('phone').value='';
+document.getElementById('amount').value='';
+show();
+}
+function removeDebt(i){
+if(confirm('Ин қарзро нест кунем?')){
+debts.splice(i,1);
+localStorage.setItem('debts',JSON.stringify(debts));
+show();
+}
+}
+show();
+</script>
+</body>
+  </html>
